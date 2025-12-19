@@ -4,6 +4,7 @@ import axios from 'axios';
 import './App.css';
 import Header from './components/Header';
 import Footer from './components/Footer';
+import Welcome from './pages/Welcome';
 import EmployeeListPage from './pages/EmployeeListPage';
 import AddEmployee from './pages/AddEmployee';
 import About from './pages/About';
@@ -67,7 +68,8 @@ function App() {
         <Header />
         <main className="app-main">
           <Routes>
-            <Route path="/" element={<EmployeeListPage employees={employees} setEmployees={setEmployees} fetchEmployees={fetchEmployees} />} />
+            <Route path="/" element={<Welcome />} />
+            <Route path="/employees" element={<EmployeeListPage employees={employees} setEmployees={setEmployees} fetchEmployees={fetchEmployees} />} />
             <Route path="/add-employee" element={<AddEmployee employees={employees} setEmployees={setEmployees} fetchEmployees={fetchEmployees} />} />
             <Route path="/about" element={<About />} />
           </Routes>

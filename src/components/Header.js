@@ -11,7 +11,7 @@ function Header() {
           <p className="header-subtitle">Human Resources Management System</p>
         </Link>
         <nav className="header-nav">
-          <Link to="/" className="nav-link">Employee List</Link>
+          <Link to="/employees" className="nav-link">Employee List</Link>
           <Link to="/add-employee" className="nav-link">Add Employee</Link>
           <Link to="/about" className="nav-link">About</Link>
         </nav>

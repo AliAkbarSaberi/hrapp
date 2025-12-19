@@ -92,16 +92,13 @@ function AddEmployee({ employees, setEmployees, fetchEmployees }) {
       }
       
       // Navigate back to employee list
-      navigate('/');
+      navigate('/employees');
     } catch (err) {
       console.error('Error adding employee:', err);
       setErrors({ submit: 'Failed to add employee. Make sure json-server is running.' });
     } finally {
       setIsSubmitting(false);
     }
-  };
-    // Navigate back to employee list
-    navigate('/');
   };
 
   return (
@@ -272,7 +269,7 @@ function AddEmployee({ employees, setEmployees, fetchEmployees }) {
             <button 
               type="button" 
               className="btn-cancel"
-              onClick={() => navigate('/')}
+              onClick={() => navigate('/employees')}
               disabled={isSubmitting}
             >
               Cancel
