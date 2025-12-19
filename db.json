@@ -1,7 +1,7 @@
 {
   "employees": [
     {
-      "id": 1,
+      "id": "1",
       "name": "Aino Virtanen",
       "title": "HR Manager",
       "salary": 4200,
@@ -11,10 +11,14 @@
       "startDate": "2015-04-01",
       "location": "Helsinki",
       "department": "Human Resources",
-      "skills": ["Recruiting", "Communication", "Employee Relations"]
+      "skills": [
+        "Recruiting",
+        "Communication",
+        "Employee Relations"
+      ]
     },
     {
-      "id": 2,
+      "id": "2",
       "name": "Mikko Korhonen",
       "title": "Senior Developer",
       "salary": 5500,
@@ -24,10 +28,15 @@
       "startDate": "2014-06-15",
       "location": "Tampere",
       "department": "Engineering",
-      "skills": ["React", "Node.js", "Python", "System Design"]
+      "skills": [
+        "React",
+        "Node.js",
+        "Python",
+        "System Design"
+      ]
     },
     {
-      "id": 3,
+      "id": "3",
       "name": "Laura Mäki",
       "title": "UX Designer",
       "salary": 4500,
@@ -37,10 +46,15 @@
       "startDate": "2019-09-01",
       "location": "Helsinki",
       "department": "Design",
-      "skills": ["UI Design", "User Research", "Figma", "Prototyping"]
+      "skills": [
+        "UI Design",
+        "User Research",
+        "Figma",
+        "Prototyping"
+      ]
     },
     {
-      "id": 4,
+      "id": "4",
       "name": "Janne Heikkinen",
       "title": "Project Manager",
       "salary": 4800,
@@ -50,10 +64,15 @@
       "startDate": "2010-01-10",
       "location": "Turku",
       "department": "Project Management",
-      "skills": ["Agile", "Scrum", "Leadership", "Risk Management"]
+      "skills": [
+        "Agile",
+        "Scrum",
+        "Leadership",
+        "Risk Management"
+      ]
     },
     {
-      "id": 5,
+      "id": "5",
       "name": "Sofia Nieminen",
       "title": "Marketing Specialist",
       "salary": 3800,
@@ -63,10 +82,15 @@
       "startDate": "2025-12-16",
       "location": "Helsinki",
       "department": "Marketing",
-      "skills": ["Social Media", "Content Marketing", "Analytics", "Copywriting"]
+      "skills": [
+        "Social Media",
+        "Content Marketing",
+        "Analytics",
+        "Copywriting"
+      ]
     },
     {
-      "id": 6,
+      "id": "6",
       "name": "Petri Saarinen",
       "title": "DevOps Engineer",
       "salary": 5200,
@@ -76,10 +100,15 @@
       "startDate": "2009-03-20",
       "location": "Oulu",
       "department": "Engineering",
-      "skills": ["Kubernetes", "Docker", "AWS", "CI/CD"]
+      "skills": [
+        "Kubernetes",
+        "Docker",
+        "AWS",
+        "CI/CD"
+      ]
     },
     {
-      "id": 7,
+      "id": "7",
       "name": "Emma Virtanen",
       "title": "Business Analyst",
       "salary": 4100,
@@ -89,10 +118,15 @@
       "startDate": "2023-06-15",
       "location": "Helsinki",
       "department": "Business",
-      "skills": ["Data Analysis", "SQL", "Requirements", "Documentation"]
+      "skills": [
+        "Data Analysis",
+        "SQL",
+        "Requirements",
+        "Documentation"
+      ]
     },
     {
-      "id": 8,
+      "id": "8",
       "name": "Timo Lappalainen",
       "title": "Frontend Developer",
       "salary": 4700,
@@ -102,10 +136,15 @@
       "startDate": "2025-10-19",
       "location": "Espoo",
       "department": "Engineering",
-      "skills": ["JavaScript", "Vue.js", "CSS", "Testing"]
+      "skills": [
+        "JavaScript",
+        "Vue.js",
+        "CSS",
+        "Testing"
+      ]
     },
     {
-      "id": 9,
+      "id": "9",
       "name": "Hanna Mäkelä",
       "title": "QA Engineer",
       "salary": 4300,
@@ -115,10 +154,15 @@
       "startDate": "2020-02-01",
       "location": "Helsinki",
       "department": "Quality Assurance",
-      "skills": ["Test Automation", "Manual Testing", "Selenium", "Test Planning"]
+      "skills": [
+        "Test Automation",
+        "Manual Testing",
+        "Selenium",
+        "Test Planning"
+      ]
     },
     {
-      "id": 10,
+      "id": "10",
       "name": "Ville Maki",
       "title": "Database Administrator",
       "salary": 4900,
@@ -128,10 +172,15 @@
       "startDate": "2005-07-11",
       "location": "Tampere",
       "department": "Engineering",
-      "skills": ["PostgreSQL", "MySQL", "Performance Tuning", "Backup Recovery"]
+      "skills": [
+        "PostgreSQL",
+        "MySQL",
+        "Performance Tuning",
+        "Backup Recovery"
+      ]
     },
     {
-      "id": 11,
+      "id": "11",
       "name": "Anna Hautamaki",
       "title": "Legal Advisor",
       "salary": 5000,
@@ -141,7 +190,12 @@
       "startDate": "2025-12-09",
       "location": "Helsinki",
       "department": "Legal",
-      "skills": ["Contract Law", "Compliance", "Corporate Law", "Negotiations"]
+      "skills": [
+        "Contract Law",
+        "Compliance",
+        "Corporate Law",
+        "Negotiations"
+      ]
     }
   ]
 }

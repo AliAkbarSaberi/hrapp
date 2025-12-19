@@ -2,7 +2,7 @@ import React from 'react';
 import PersonCard from './PersonCard';
 import './PersonList.css';
 
-function PersonList({ employees }) {
+function PersonList({ employees, onUpdate }) {
   return (
     <div className="person-list">
       <div className="employees-grid">
@@ -20,6 +20,7 @@ function PersonList({ employees }) {
             location={employee.location}
             department={employee.department}
             skills={employee.skills}
+            onUpdate={onUpdate}
           />
         ))}
       </div>

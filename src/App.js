@@ -34,6 +34,21 @@ function App() {
     }
   };
 
+  const updateEmployee = async (employeeId, updates) => {
+    try {
+      const response = await axios.patch(`${API_URL}/${employeeId}`, updates);
+      // Update the employee in the state
+      setEmployees(prevEmployees =>
+        prevEmployees.map(emp =>
+          emp.id === employeeId ? { ...emp, ...response.data } : emp
+        )
+      );
+    } catch (err) {
+      console.error('Error updating employee:', err);
+      throw err;
+    }
+  };
+
   if (loading) {
     return (
       <div className="App">
@@ -68,7 +83,7 @@ function App() {
       <main className="app-main">
         <Routes>
             <Route path="/" element={<Welcome />} />
-            <Route path="/employees" element={<EmployeeListPage employees={employees} setEmployees={setEmployees} fetchEmployees={fetchEmployees} />} />
+            <Route path="/employees" element={<EmployeeListPage employees={employees} setEmployees={setEmployees} fetchEmployees={fetchEmployees} updateEmployee={updateEmployee} />} />
             <Route path="/add-employee" element={<AddEmployee employees={employees} setEmployees={setEmployees} fetchEmployees={fetchEmployees} />} />
             <Route path="/about" element={<About />} />
           </Routes>

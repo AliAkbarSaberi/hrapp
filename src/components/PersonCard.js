@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './PersonCard.css';
 
 // Map animal names to emojis
@@ -70,11 +70,66 @@ const getAnniversaryReminder = (startDate) => {
   return null;
 };
 
-function PersonCard({ id, name, title, salary, phone, email, animal, startDate, location, department, skills }) {
+function PersonCard({ id, name, title, salary, phone, email, animal, startDate, location, department, skills, onUpdate }) {
+  const [isEditing, setIsEditing] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const [editData, setEditData] = useState({
+    salary: salary || '',
+    location: location || '',
+    department: department || '',
+    skills: skills ? skills.join(', ') : ''
+  });
+  
   const yearsOfService = calculateYearsOfService(startDate);
   const exactYearsOfService = calculateExactYearsOfService(startDate);
   const reminder = getAnniversaryReminder(startDate);
   const animalEmoji = getAnimalEmoji(animal);
+  
+  const handleEditChange = (e) => {
+    const { name, value } = e.target;
+    setEditData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+  
+  const handleSave = async () => {
+    try {
+      setIsSaving(true);
+      // Build updated object with only changed fields
+      const updates = {};
+      if (editData.salary !== salary) updates.salary = Number(editData.salary);
+      if (editData.location !== location) updates.location = editData.location;
+      if (editData.department !== department) updates.department = editData.department;
+      if (editData.skills.replace(/\s/g, '') !== (skills ? skills.join(',') : '')) {
+        updates.skills = editData.skills.split(',').map(s => s.trim()).filter(s => s);
+      }
+      
+      // Send PATCH request
+      await onUpdate(id, updates);
+      
+      // Show success message
+      setShowConfirmation(true);
+      setTimeout(() => setShowConfirmation(false), 2000);
+      
+      setIsEditing(false);
+    } catch (error) {
+      console.error('Error updating employee:', error);
+    } finally {
+      setIsSaving(false);
+    }
+  };
+  
+  const handleCancel = () => {
+    setEditData({
+      salary: salary || '',
+      location: location || '',
+      department: department || '',
+      skills: skills ? skills.join(', ') : ''
+    });
+    setIsEditing(false);
+  };
   
   return (
     <div className="person-card">
@@ -85,6 +140,12 @@ function PersonCard({ id, name, title, salary, phone, email, animal, startDate, 
         </div>
         <span className="person-animal">{animalEmoji}</span>
       </div>
+      
+      {showConfirmation && (
+        <div className="confirmation-message">
+          ✓ Employee information updated successfully!
+        </div>
+      )}
       
       <div className="person-details">
         {/* Contact Information */}
@@ -107,18 +168,58 @@ function PersonCard({ id, name, title, salary, phone, email, animal, startDate, 
         {/* Employment Information */}
         <div className="detail-section">
           <h3 className="section-title">Employment</h3>
-          <div className="person-field">
-            <span className="person-label">Salary:</span>
-            <span className="person-value">€{salary.toLocaleString()}</span>
-          </div>
-          <div className="person-field">
-            <span className="person-label">Department:</span>
-            <span className="person-value">{department}</span>
-          </div>
-          <div className="person-field">
-            <span className="person-label">Location:</span>
-            <span className="person-value">{location}</span>
-          </div>
+          {!isEditing ? (
+            <>
+              <div className="person-field">
+                <span className="person-label">Salary:</span>
+                <span className="person-value">€{salary.toLocaleString()}</span>
+              </div>
+              <div className="person-field">
+                <span className="person-label">Department:</span>
+                <span className="person-value">{department}</span>
+              </div>
+              <div className="person-field">
+                <span className="person-label">Location:</span>
+                <span className="person-value">{location}</span>
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="edit-field">
+                <label className="person-label">Salary:</label>
+                <input
+                  type="number"
+                  name="salary"
+                  value={editData.salary}
+                  onChange={handleEditChange}
+                  className="edit-input"
+                  placeholder="Salary"
+                />
+              </div>
+              <div className="edit-field">
+                <label className="person-label">Department:</label>
+                <input
+                  type="text"
+                  name="department"
+                  value={editData.department}
+                  onChange={handleEditChange}
+                  className="edit-input"
+                  placeholder="Department"
+                />
+              </div>
+              <div className="edit-field">
+                <label className="person-label">Location:</label>
+                <input
+                  type="text"
+                  name="location"
+                  value={editData.location}
+                  onChange={handleEditChange}
+                  className="edit-input"
+                  placeholder="Location"
+                />
+              </div>
+            </>
+          )}
           <div className="person-field">
             <span className="person-label">Started:</span>
             <span className="person-value">{new Date(startDate).toLocaleDateString('en-US')}</span>
@@ -130,19 +231,35 @@ function PersonCard({ id, name, title, salary, phone, email, animal, startDate, 
         </div>
         
         {/* Skills */}
-        {skills && skills.length > 0 && (
+        {!isEditing ? (
+          skills && skills.length > 0 && (
+            <div className="detail-section">
+              <h3 className="section-title">Skills</h3>
+              <div className="skills-list">
+                {skills.map((skill, index) => (
+                  <span key={index} className="skill-badge">{skill}</span>
+                ))}
+              </div>
+            </div>
+          )
+        ) : (
           <div className="detail-section">
             <h3 className="section-title">Skills</h3>
-            <div className="skills-list">
-              {skills.map((skill, index) => (
-                <span key={index} className="skill-badge">{skill}</span>
-              ))}
+            <div className="edit-field">
+              <textarea
+                name="skills"
+                value={editData.skills}
+                onChange={handleEditChange}
+                className="edit-input edit-textarea"
+                placeholder="Skills (comma-separated: e.g., React, Node.js, Design)"
+                rows="3"
+              />
             </div>
           </div>
         )}
         
         {/* Anniversary Reminder */}
-        {reminder && (
+        {reminder && !isEditing && (
           <div className="reminder-section">
             <p className="reminder-message">
               <span className="reminder-emoji">{reminder.emoji}</span>
@@ -150,6 +267,35 @@ function PersonCard({ id, name, title, salary, phone, email, animal, startDate, 
             </p>
           </div>
         )}
+        
+        {/* Action Buttons */}
+        <div className="button-group">
+          {!isEditing ? (
+            <button
+              className="btn btn-edit"
+              onClick={() => setIsEditing(true)}
+            >
+              Edit
+            </button>
+          ) : (
+            <>
+              <button
+                className="btn btn-save"
+                onClick={handleSave}
+                disabled={isSaving}
+              >
+                {isSaving ? 'Saving...' : 'Save'}
+              </button>
+              <button
+                className="btn btn-cancel"
+                onClick={handleCancel}
+                disabled={isSaving}
+              >
+                Cancel
+              </button>
+            </>
+          )}
+        </div>
       </div>
     </div>
   );
