@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import '../styles/AddEmployee.css';
 
-function AddEmployee({ employees, setEmployees }) {
+const API_URL = 'http://localhost:3001/employees';
+
+function AddEmployee({ employees, setEmployees, fetchEmployees }) {
   const navigate = useNavigate();
   
   const [formData, setFormData] = useState({
@@ -19,6 +22,7 @@ function AddEmployee({ employees, setEmployees }) {
   });
 
   const [errors, setErrors] = useState({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -51,7 +55,7 @@ function AddEmployee({ employees, setEmployees }) {
     return newErrors;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     
     const newErrors = validateForm();
@@ -62,7 +66,6 @@ function AddEmployee({ employees, setEmployees }) {
 
     // Create new employee object
     const newEmployee = {
-      id: Date.now(),
       name: formData.name,
       title: formData.title,
       salary: parseInt(formData.salary),
@@ -75,9 +78,28 @@ function AddEmployee({ employees, setEmployees }) {
       skills: formData.skills.split(',').map(skill => skill.trim()).filter(skill => skill !== '')
     };
 
-    // Add new employee to the list
-    setEmployees([...employees, newEmployee]);
-    
+    try {
+      setIsSubmitting(true);
+      // Post new employee to the server
+      const response = await axios.post(API_URL, newEmployee);
+      
+      // Add new employee to the local list with the ID from server
+      setEmployees([...employees, response.data]);
+      
+      // Re-fetch to ensure consistency
+      if (fetchEmployees) {
+        await fetchEmployees();
+      }
+      
+      // Navigate back to employee list
+      navigate('/');
+    } catch (err) {
+      console.error('Error adding employee:', err);
+      setErrors({ submit: 'Failed to add employee. Make sure json-server is running.' });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
     // Navigate back to employee list
     navigate('/');
   };
@@ -233,12 +255,25 @@ function AddEmployee({ employees, setEmployees }) {
             {errors.skills && <span className="error-message">{errors.skills}</span>}
           </div>
 
+          {errors.submit && (
+            <div className="error-alert">
+              <p>{errors.submit}</p>
+            </div>
+          )}
+
           <div className="form-actions">
-            <button type="submit" className="btn-submit">Add Employee</button>
+            <button 
+              type="submit" 
+              className="btn-submit"
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? 'Adding...' : 'Add Employee'}
+            </button>
             <button 
               type="button" 
               className="btn-cancel"
               onClick={() => navigate('/')}
+              disabled={isSubmitting}
             >
               Cancel
             </button>

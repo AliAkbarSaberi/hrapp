@@ -110,6 +110,12 @@
   transform: translateY(0);
 }
 
+.btn-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
 .btn-cancel {
   background: #e0e0e0;
   color: #2d3436;
@@ -120,6 +126,25 @@
 .btn-cancel:hover {
   background: #d0d0d0;
   transform: translateY(-2px);
+}
+
+.btn-cancel:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.error-alert {
+  background: #fadbd8;
+  border: 1px solid #e74c3c;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.error-alert p {
+  color: #c0392b;
+  margin: 0;
+  font-weight: 500;
 }
 
 @media (max-width: 768px) {

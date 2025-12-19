@@ -1,15 +1,65 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import axios from 'axios';
 import './App.css';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import EmployeeListPage from './pages/EmployeeListPage';
 import AddEmployee from './pages/AddEmployee';
 import About from './pages/About';
-import { employees as initialEmployees } from './data/employeesData';
+
+const API_URL = 'http://localhost:3001/employees';
 
 function App() {
-  const [employees, setEmployees] = useState(initialEmployees);
+  const [employees, setEmployees] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    fetchEmployees();
+  }, []);
+
+  const fetchEmployees = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.get(API_URL);
+      setEmployees(response.data);
+      setError(null);
+    } catch (err) {
+      console.error('Error fetching employees:', err);
+      setError('Failed to load employees. Make sure json-server is running on port 3001.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="App">
+        <Header />
+        <main className="app-main">
+          <div style={{ textAlign: 'center', padding: '2rem' }}>
+            <p>Loading employees...</p>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="App">
+        <Header />
+        <main className="app-main">
+          <div style={{ textAlign: 'center', padding: '2rem', color: '#e74c3c' }}>
+            <p>{error}</p>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
 
   return (
     <Router>
@@ -17,8 +67,8 @@ function App() {
         <Header />
         <main className="app-main">
           <Routes>
-            <Route path="/" element={<EmployeeListPage employees={employees} setEmployees={setEmployees} />} />
-            <Route path="/add-employee" element={<AddEmployee employees={employees} setEmployees={setEmployees} />} />
+            <Route path="/" element={<EmployeeListPage employees={employees} setEmployees={setEmployees} fetchEmployees={fetchEmployees} />} />
+            <Route path="/add-employee" element={<AddEmployee employees={employees} setEmployees={setEmployees} fetchEmployees={fetchEmployees} />} />
             <Route path="/about" element={<About />} />
           </Routes>
         </main>
