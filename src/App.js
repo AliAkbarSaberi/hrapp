@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
-import axios from 'axios';
+import useAxios from './hooks/useAxios';
 import './App.css';
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -9,12 +9,13 @@ import EmployeeListPage from './pages/EmployeeListPage';
 import AddEmployee from './pages/AddEmployee';
 import About from './pages/About';
 
-const API_URL = 'http://localhost:3001/employees';
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:3001/employees';
 
 function App() {
   const [employees, setEmployees] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const { get, patch } = useAxios();
 
   useEffect(() => {
     fetchEmployees();
@@ -23,12 +24,12 @@ function App() {
   const fetchEmployees = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(API_URL);
+      const response = await get(API_URL);
       setEmployees(response.data);
       setError(null);
     } catch (err) {
       console.error('Error fetching employees:', err);
-      setError('Failed to load employees. Make sure json-server is running on port 3001.');
+      setError('Failed to load employees. Make sure the backend server is running.');
     } finally {
       setLoading(false);
     }
@@ -36,7 +37,7 @@ function App() {
 
   const updateEmployee = async (employeeId, updates) => {
     try {
-      const response = await axios.patch(`${API_URL}/${employeeId}`, updates);
+      const response = await patch(`${API_URL}/${employeeId}`, updates);
       // Update the employee in the state
       setEmployees(prevEmployees =>
         prevEmployees.map(emp =>

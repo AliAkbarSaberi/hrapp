@@ -1,74 +1,10 @@
 import React, { useState } from 'react';
 import './PersonCard.css';
-
-// Map animal names to emojis
-const animalEmojis = {
-  'Owl': '🦉',
-  'Dog': '🐕',
-  'Cat': '🐱',
-  'Eagle': '🦅',
-  'Butterfly': '🦋',
-  'Fox': '🦊',
-  'Rabbit': '🐰',
-  'Wolf': '🐺',
-  'Penguin': '🐧',
-  'Dolphin': '🐬',
-  'Lion': '🦁'
-};
-
-// Convert animal name to emoji
-const getAnimalEmoji = (animalName) => {
-  return animalEmojis[animalName] || '🐾';
-};
-
-// Calculate years of service
-const calculateYearsOfService = (startDate) => {
-  const start = new Date(startDate);
-  const now = new Date();
-  
-  let years = now.getFullYear() - start.getFullYear();
-  const monthDiff = now.getMonth() - start.getMonth();
-  
-  if (monthDiff < 0 || (monthDiff === 0 && now.getDate() < start.getDate())) {
-    years--;
-  }
-  
-  return years;
-};
-
-// Calculate exact time in service (in years as decimal)
-const calculateExactYearsOfService = (startDate) => {
-  const start = new Date(startDate);
-  const now = new Date();
-  const diffTime = Math.abs(now - start);
-  const diffDays = diffTime / (1000 * 60 * 60 * 24);
-  const diffYears = diffDays / 365.25;
-  return diffYears;
-};
-
-// Determine if anniversary reminder needed
-const getAnniversaryReminder = (startDate) => {
-  const exactYears = calculateExactYearsOfService(startDate);
-  const yearsOfService = calculateYearsOfService(startDate);
-  
-  // Check if exactly 5, 10, 15, 20, 25, etc. years
-  if (Math.abs(exactYears - Math.round(exactYears)) < 0.02 && yearsOfService > 0 && yearsOfService % 5 === 0) {
-    return {
-      emoji: '🎉',
-      message: 'Schedule recognition meeting.'
-    };
-  }
-  
-  // Check if less than 6 months
-  if (exactYears < 0.5) {
-    return {
-      emoji: '🔔',
-      message: 'Schedule probation review.'
-    };
-  }
-  
-  return null;
-};
+import PersonCardEditForm from './PersonCardEditForm';
+import PersonCardEmploymentView from './PersonCardEmploymentView';
+import { calculateYearsOfService, calculateExactYearsOfService } from '../utils/dateHelpers';
+import { getAnimalEmoji } from '../utils/animalHelpers';
+import { getAnniversaryReminder } from '../utils/reminderHelpers';
 
 function PersonCard({ id, name, title, salary, phone, email, animal, startDate, location, department, skills, onUpdate }) {
   const [isEditing, setIsEditing] = useState(false);
@@ -166,69 +102,24 @@ function PersonCard({ id, name, title, salary, phone, email, animal, startDate, 
         </div>
         
         {/* Employment Information */}
-        <div className="detail-section">
-          <h3 className="section-title">Employment</h3>
-          {!isEditing ? (
-            <>
-              <div className="person-field">
-                <span className="person-label">Salary:</span>
-                <span className="person-value">€{salary.toLocaleString()}</span>
-              </div>
-              <div className="person-field">
-                <span className="person-label">Department:</span>
-                <span className="person-value">{department}</span>
-              </div>
-              <div className="person-field">
-                <span className="person-label">Location:</span>
-                <span className="person-value">{location}</span>
-              </div>
-            </>
-          ) : (
-            <>
-              <div className="edit-field">
-                <label className="person-label">Salary:</label>
-                <input
-                  type="number"
-                  name="salary"
-                  value={editData.salary}
-                  onChange={handleEditChange}
-                  className="edit-input"
-                  placeholder="Salary"
-                />
-              </div>
-              <div className="edit-field">
-                <label className="person-label">Department:</label>
-                <input
-                  type="text"
-                  name="department"
-                  value={editData.department}
-                  onChange={handleEditChange}
-                  className="edit-input"
-                  placeholder="Department"
-                />
-              </div>
-              <div className="edit-field">
-                <label className="person-label">Location:</label>
-                <input
-                  type="text"
-                  name="location"
-                  value={editData.location}
-                  onChange={handleEditChange}
-                  className="edit-input"
-                  placeholder="Location"
-                />
-              </div>
-            </>
-          )}
-          <div className="person-field">
-            <span className="person-label">Started:</span>
-            <span className="person-value">{new Date(startDate).toLocaleDateString('en-US')}</span>
-          </div>
-          <div className="person-field">
-            <span className="person-label">Years in Service:</span>
-            <span className="person-value">{yearsOfService} years {Math.round((exactYearsOfService % 1) * 12)} months</span>
-          </div>
-        </div>
+        {!isEditing ? (
+          <PersonCardEmploymentView
+            salary={salary}
+            department={department}
+            location={location}
+            startDate={startDate}
+            yearsOfService={yearsOfService}
+            exactYearsOfService={exactYearsOfService}
+          />
+        ) : (
+          <PersonCardEditForm
+            editData={editData}
+            onEditChange={handleEditChange}
+            onSave={handleSave}
+            onCancel={handleCancel}
+            isSaving={isSaving}
+          />
+        )}
         
         {/* Skills */}
         {!isEditing ? (
@@ -242,21 +133,7 @@ function PersonCard({ id, name, title, salary, phone, email, animal, startDate, 
               </div>
             </div>
           )
-        ) : (
-          <div className="detail-section">
-            <h3 className="section-title">Skills</h3>
-            <div className="edit-field">
-              <textarea
-                name="skills"
-                value={editData.skills}
-                onChange={handleEditChange}
-                className="edit-input edit-textarea"
-                placeholder="Skills (comma-separated: e.g., React, Node.js, Design)"
-                rows="3"
-              />
-            </div>
-          </div>
-        )}
+        ) : null}
         
         {/* Anniversary Reminder */}
         {reminder && !isEditing && (
@@ -269,33 +146,16 @@ function PersonCard({ id, name, title, salary, phone, email, animal, startDate, 
         )}
         
         {/* Action Buttons */}
-        <div className="button-group">
-          {!isEditing ? (
+        {!isEditing && (
+          <div className="button-group">
             <button
               className="btn btn-edit"
               onClick={() => setIsEditing(true)}
             >
               Edit
             </button>
-          ) : (
-            <>
-              <button
-                className="btn btn-save"
-                onClick={handleSave}
-                disabled={isSaving}
-              >
-                {isSaving ? 'Saving...' : 'Save'}
-              </button>
-              <button
-                className="btn btn-cancel"
-                onClick={handleCancel}
-                disabled={isSaving}
-              >
-                Cancel
-              </button>
-            </>
-          )}
-        </div>
+          </div>
+        )}
       </div>
     </div>
   );

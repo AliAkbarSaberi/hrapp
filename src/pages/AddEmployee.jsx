@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import useAxios from '../hooks/useAxios';
 import '../styles/AddEmployee.css';
 
-const API_URL = 'http://localhost:3001/employees';
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:3001/employees';
 
 function AddEmployee({ employees, setEmployees, fetchEmployees }) {
   const navigate = useNavigate();
+  const { post } = useAxios();
   
   const [formData, setFormData] = useState({
     name: '',
@@ -81,7 +82,7 @@ function AddEmployee({ employees, setEmployees, fetchEmployees }) {
     try {
       setIsSubmitting(true);
       // Post new employee to the server
-      const response = await axios.post(API_URL, newEmployee);
+      const response = await post(API_URL, newEmployee);
       
       // Add new employee to the local list with the ID from server
       setEmployees([...employees, response.data]);
@@ -95,7 +96,7 @@ function AddEmployee({ employees, setEmployees, fetchEmployees }) {
       navigate('/employees');
     } catch (err) {
       console.error('Error adding employee:', err);
-      setErrors({ submit: 'Failed to add employee. Make sure json-server is running.' });
+      setErrors({ submit: 'Failed to add employee. Make sure the backend server is running.' });
     } finally {
       setIsSubmitting(false);
     }
