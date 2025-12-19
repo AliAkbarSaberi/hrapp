@@ -1,0 +1,148 @@
+.person-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  max-width: 420px;
+  margin: 1.5rem auto;
+}
+
+.person-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.person-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.person-header-left {
+  flex: 1;
+}
+
+.person-name {
+  margin: 0;
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+
+.person-title {
+  margin: 0.25rem 0 0 0;
+  font-size: 0.95rem;
+  opacity: 0.95;
+  font-weight: 500;
+}
+
+.person-animal {
+  font-size: 2rem;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.person-details {
+  padding: 1.5rem;
+}
+
+.detail-section {
+  margin-bottom: 1.5rem;
+}
+
+.detail-section:last-child {
+  margin-bottom: 0;
+}
+
+.section-title {
+  margin: 0 0 0.75rem 0;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #667eea;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.person-field {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.person-field:last-child {
+  border-bottom: none;
+}
+
+.person-label {
+  font-weight: 600;
+  color: #636e72;
+  min-width: 100px;
+  font-size: 0.9rem;
+}
+
+.person-value {
+  color: #2d3436;
+  text-align: right;
+  flex: 1;
+  margin-left: 1rem;
+  word-break: break-word;
+}
+
+.person-value a {
+  color: #667eea;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.person-value a:hover {
+  color: #764ba2;
+  text-decoration: underline;
+}
+
+.skills-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.skill-badge {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 0.4rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  display: inline-block;
+}
+
+.reminder-section {
+  background: linear-gradient(135deg, #ffd89b 0%, #19547b 100%);
+  padding: 1rem;
+  border-radius: 8px;
+  margin-top: 1rem;
+  border-left: 4px solid #ff9800;
+}
+
+.reminder-section:has(.reminder-emoji:contains("🔔")) {
+  background: linear-gradient(135deg, #ffd89b 0%, #19547b 100%);
+  border-left-color: #ff9800;
+}
+
+.reminder-message {
+  margin: 0;
+  font-weight: 600;
+  color: #2d3436;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.reminder-emoji {
+  font-size: 1.5rem;
+}
