@@ -1,22 +1,30 @@
+import { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
 import Header from './components/Header';
 import Footer from './components/Footer';
-import PersonList from './components/PersonList';
-import { employees } from './data/employeesData';
+import EmployeeListPage from './pages/EmployeeListPage';
+import AddEmployee from './pages/AddEmployee';
+import About from './pages/About';
+import { employees as initialEmployees } from './data/employeesData';
 
 function App() {
+  const [employees, setEmployees] = useState(initialEmployees);
+
   return (
-    <div className="App">
-      <Header />
-      <main className="app-main">
-        <div className="employees-section">
-          <h2 className="section-title">Team Members</h2>
-          <p className="section-subtitle">Total: {employees.length} employees</p>
-          <PersonList employees={employees} />
-        </div>
-      </main>
-      <Footer />
-    </div>
+    <Router>
+      <div className="App">
+        <Header />
+        <main className="app-main">
+          <Routes>
+            <Route path="/" element={<EmployeeListPage employees={employees} setEmployees={setEmployees} />} />
+            <Route path="/add-employee" element={<AddEmployee employees={employees} setEmployees={setEmployees} />} />
+            <Route path="/about" element={<About />} />
+          </Routes>
+        </main>
+        <Footer />
+      </div>
+    </Router>
   );
 }
 
