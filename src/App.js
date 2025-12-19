@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import axios from 'axios';
 import './App.css';
 import Header from './components/Header';
@@ -63,11 +63,10 @@ function App() {
   }
 
   return (
-    <Router>
-      <div className="App">
-        <Header />
-        <main className="app-main">
-          <Routes>
+    <div className="App">
+      <Header />
+      <main className="app-main">
+        <Routes>
             <Route path="/" element={<Welcome />} />
             <Route path="/employees" element={<EmployeeListPage employees={employees} setEmployees={setEmployees} fetchEmployees={fetchEmployees} />} />
             <Route path="/add-employee" element={<AddEmployee employees={employees} setEmployees={setEmployees} fetchEmployees={fetchEmployees} />} />
@@ -76,7 +75,6 @@ function App() {
         </main>
         <Footer />
       </div>
-    </Router>
   );
 }
 
