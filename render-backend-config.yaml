@@ -1,0 +1,9 @@
+# Render Deployment Configuration
+
+# Specify the start command for the backend
+start: json-server --watch db.json --port 8080
+
+# Specify the environment variables
+env:
+  - NODE_ENV: production
+  - PORT: 8080
