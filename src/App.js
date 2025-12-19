@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import Button from '@mui/material/Button';
 import { Routes, Route } from 'react-router-dom';
 import useAxios from './hooks/useAxios';
 import './App.css';
@@ -82,6 +83,10 @@ function App() {
     <div className="App">
       <Header />
       <main className="app-main">
+        {/* Test MUI Button */}
+        <div style={{ textAlign: 'center', margin: '1rem' }}>
+          <Button variant="contained" color="primary">MUI Test Button</Button>
+        </div>
         <Routes>
             <Route path="/" element={<Welcome />} />
             <Route path="/employees" element={<EmployeeListPage employees={employees} setEmployees={setEmployees} fetchEmployees={fetchEmployees} updateEmployee={updateEmployee} />} />

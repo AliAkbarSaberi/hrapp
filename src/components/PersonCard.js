@@ -5,6 +5,12 @@ import PersonCardEmploymentView from './PersonCardEmploymentView';
 import { calculateYearsOfService, calculateExactYearsOfService } from '../utils/dateHelpers';
 import { getAnimalEmoji } from '../utils/animalHelpers';
 import { getAnniversaryReminder } from '../utils/reminderHelpers';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardActions from '@mui/material/CardActions';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
 
 function PersonCard({ id, name, title, salary, phone, email, animal, startDate, location, department, skills, onUpdate }) {
   const [isEditing, setIsEditing] = useState(false);
@@ -68,39 +74,35 @@ function PersonCard({ id, name, title, salary, phone, email, animal, startDate, 
   };
   
   return (
-    <div className="person-card">
-      <div className="person-header">
-        <div className="person-header-left">
-          <h2 className="person-name">{name}</h2>
-          <p className="person-title">{title}</p>
-        </div>
-        <span className="person-animal">{animalEmoji}</span>
-      </div>
-      
-      {showConfirmation && (
-        <div className="confirmation-message">
-          ✓ Employee information updated successfully!
-        </div>
-      )}
-      
-      <div className="person-details">
+    <Card sx={{ maxWidth: 500, margin: '1rem auto', boxShadow: 3 }}>
+      <CardContent>
+        <Box display="flex" alignItems="center" justifyContent="space-between" mb={2}>
+          <Box>
+            <Typography variant="h6" component="div">{name}</Typography>
+            <Typography variant="subtitle1" color="text.secondary">{title}</Typography>
+          </Box>
+          <Typography variant="h4" component="span">{animalEmoji}</Typography>
+        </Box>
+
+        {showConfirmation && (
+          <Box mb={2}>
+            <Typography color="success.main" variant="body2">
+              ✓ Employee information updated successfully!
+            </Typography>
+          </Box>
+        )}
+
         {/* Contact Information */}
-        <div className="detail-section">
-          <h3 className="section-title">Contact</h3>
-          <div className="person-field">
-            <span className="person-label">Email:</span>
-            <span className="person-value">
-              <a href={`mailto:${email}`}>{email}</a>
-            </span>
-          </div>
-          <div className="person-field">
-            <span className="person-label">Phone:</span>
-            <span className="person-value">
-              <a href={`tel:${phone}`}>{phone}</a>
-            </span>
-          </div>
-        </div>
-        
+        <Box mb={2}>
+          <Typography variant="subtitle2" fontWeight={600}>Contact</Typography>
+          <Typography variant="body2">
+            <strong>Email:</strong> <a href={`mailto:${email}`}>{email}</a>
+          </Typography>
+          <Typography variant="body2">
+            <strong>Phone:</strong> <a href={`tel:${phone}`}>{phone}</a>
+          </Typography>
+        </Box>
+
         {/* Employment Information */}
         {!isEditing ? (
           <PersonCardEmploymentView
@@ -120,44 +122,40 @@ function PersonCard({ id, name, title, salary, phone, email, animal, startDate, 
             isSaving={isSaving}
           />
         )}
-        
+
         {/* Skills */}
-        {!isEditing ? (
-          skills && skills.length > 0 && (
-            <div className="detail-section">
-              <h3 className="section-title">Skills</h3>
-              <div className="skills-list">
-                {skills.map((skill, index) => (
-                  <span key={index} className="skill-badge">{skill}</span>
-                ))}
-              </div>
-            </div>
-          )
-        ) : null}
-        
+        {!isEditing && skills && skills.length > 0 && (
+          <Box mt={2}>
+            <Typography variant="subtitle2" fontWeight={600}>Skills</Typography>
+            <Box display="flex" flexWrap="wrap" gap={1} mt={1}>
+              {skills.map((skill, index) => (
+                <Box key={index} sx={{ bgcolor: 'primary.light', color: 'primary.contrastText', px: 1.5, py: 0.5, borderRadius: 2, fontSize: 13 }}>
+                  {skill}
+                </Box>
+              ))}
+            </Box>
+          </Box>
+        )}
+
         {/* Anniversary Reminder */}
         {reminder && !isEditing && (
-          <div className="reminder-section">
-            <p className="reminder-message">
-              <span className="reminder-emoji">{reminder.emoji}</span>
+          <Box mt={2}>
+            <Typography variant="body2" color="warning.main">
+              <span style={{ marginRight: 4 }}>{reminder.emoji}</span>
               {reminder.message}
-            </p>
-          </div>
+            </Typography>
+          </Box>
         )}
-        
-        {/* Action Buttons */}
-        {!isEditing && (
-          <div className="button-group">
-            <button
-              className="btn btn-edit"
-              onClick={() => setIsEditing(true)}
-            >
-              Edit
-            </button>
-          </div>
-        )}
-      </div>
-    </div>
+      </CardContent>
+      {/* Action Buttons */}
+      {!isEditing && (
+        <CardActions>
+          <Button variant="contained" color="primary" onClick={() => setIsEditing(true)}>
+            Edit
+          </Button>
+        </CardActions>
+      )}
+    </Card>
   );
 }
 

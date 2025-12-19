@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useAxios from '../hooks/useAxios';
-import '../styles/AddEmployee.css';
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import Paper from '@mui/material/Paper';
 
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:3001/employees';
 
@@ -103,182 +107,152 @@ function AddEmployee({ employees, setEmployees, fetchEmployees }) {
   };
 
   return (
-    <div className="page-container">
-      <div className="add-employee-section">
-        <h1>Add New Employee</h1>
-        <form className="employee-form" onSubmit={handleSubmit}>
-          
-          <div className="form-group">
-            <label htmlFor="name">Full Name *</label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              value={formData.name}
+    <Box className="page-container" display="flex" justifyContent="center" alignItems="center" minHeight="80vh">
+      <Paper elevation={3} sx={{ p: 4, width: '100%', maxWidth: 600 }}>
+        <Typography variant="h4" component="h1" gutterBottom>
+          Add New Employee
+        </Typography>
+        <Box component="form" onSubmit={handleSubmit} noValidate autoComplete="off">
+          <TextField
+            fullWidth
+            margin="normal"
+            label="Full Name *"
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
+            error={!!errors.name}
+            helperText={errors.name}
+          />
+          <Box display="flex" gap={2}>
+            <TextField
+              fullWidth
+              margin="normal"
+              label="Job Title *"
+              name="title"
+              value={formData.title}
               onChange={handleChange}
-              placeholder="e.g., John Doe"
-              className={errors.name ? 'input-error' : ''}
+              error={!!errors.title}
+              helperText={errors.title}
             />
-            {errors.name && <span className="error-message">{errors.name}</span>}
-          </div>
-
-          <div className="form-row">
-            <div className="form-group">
-              <label htmlFor="title">Job Title *</label>
-              <input
-                type="text"
-                id="title"
-                name="title"
-                value={formData.title}
-                onChange={handleChange}
-                placeholder="e.g., Senior Developer"
-                className={errors.title ? 'input-error' : ''}
-              />
-              {errors.title && <span className="error-message">{errors.title}</span>}
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="salary">Salary (€) *</label>
-              <input
-                type="number"
-                id="salary"
-                name="salary"
-                value={formData.salary}
-                onChange={handleChange}
-                placeholder="e.g., 4500"
-                className={errors.salary ? 'input-error' : ''}
-              />
-              {errors.salary && <span className="error-message">{errors.salary}</span>}
-            </div>
-          </div>
-
-          <div className="form-row">
-            <div className="form-group">
-              <label htmlFor="email">Email *</label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                placeholder="e.g., john@example.com"
-                className={errors.email ? 'input-error' : ''}
-              />
-              {errors.email && <span className="error-message">{errors.email}</span>}
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="phone">Phone *</label>
-              <input
-                type="tel"
-                id="phone"
-                name="phone"
-                value={formData.phone}
-                onChange={handleChange}
-                placeholder="e.g., 040-1234567"
-                className={errors.phone ? 'input-error' : ''}
-              />
-              {errors.phone && <span className="error-message">{errors.phone}</span>}
-            </div>
-          </div>
-
-          <div className="form-row">
-            <div className="form-group">
-              <label htmlFor="animal">Favorite Animal *</label>
-              <input
-                type="text"
-                id="animal"
-                name="animal"
-                value={formData.animal}
-                onChange={handleChange}
-                placeholder="e.g., Dog, Cat, Owl"
-                className={errors.animal ? 'input-error' : ''}
-              />
-              {errors.animal && <span className="error-message">{errors.animal}</span>}
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="startDate">Start Date *</label>
-              <input
-                type="date"
-                id="startDate"
-                name="startDate"
-                value={formData.startDate}
-                onChange={handleChange}
-              />
-            </div>
-          </div>
-
-          <div className="form-row">
-            <div className="form-group">
-              <label htmlFor="location">Location *</label>
-              <input
-                type="text"
-                id="location"
-                name="location"
-                value={formData.location}
-                onChange={handleChange}
-                placeholder="e.g., Helsinki"
-                className={errors.location ? 'input-error' : ''}
-              />
-              {errors.location && <span className="error-message">{errors.location}</span>}
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="department">Department *</label>
-              <input
-                type="text"
-                id="department"
-                name="department"
-                value={formData.department}
-                onChange={handleChange}
-                placeholder="e.g., Engineering"
-                className={errors.department ? 'input-error' : ''}
-              />
-              {errors.department && <span className="error-message">{errors.department}</span>}
-            </div>
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="skills">Skills (comma-separated) *</label>
-            <textarea
-              id="skills"
-              name="skills"
-              value={formData.skills}
+            <TextField
+              fullWidth
+              margin="normal"
+              label="Salary (€) *"
+              name="salary"
+              type="number"
+              value={formData.salary}
               onChange={handleChange}
-              placeholder="e.g., React, JavaScript, Python"
-              rows="4"
-              className={errors.skills ? 'input-error' : ''}
+              error={!!errors.salary}
+              helperText={errors.salary}
             />
-            {errors.skills && <span className="error-message">{errors.skills}</span>}
-          </div>
-
+          </Box>
+          <Box display="flex" gap={2}>
+            <TextField
+              fullWidth
+              margin="normal"
+              label="Email *"
+              name="email"
+              type="email"
+              value={formData.email}
+              onChange={handleChange}
+              error={!!errors.email}
+              helperText={errors.email}
+            />
+            <TextField
+              fullWidth
+              margin="normal"
+              label="Phone *"
+              name="phone"
+              type="tel"
+              value={formData.phone}
+              onChange={handleChange}
+              error={!!errors.phone}
+              helperText={errors.phone}
+            />
+          </Box>
+          <Box display="flex" gap={2}>
+            <TextField
+              fullWidth
+              margin="normal"
+              label="Favorite Animal *"
+              name="animal"
+              value={formData.animal}
+              onChange={handleChange}
+              error={!!errors.animal}
+              helperText={errors.animal}
+            />
+            <TextField
+              fullWidth
+              margin="normal"
+              label="Start Date *"
+              name="startDate"
+              type="date"
+              value={formData.startDate}
+              onChange={handleChange}
+              InputLabelProps={{ shrink: true }}
+            />
+          </Box>
+          <Box display="flex" gap={2}>
+            <TextField
+              fullWidth
+              margin="normal"
+              label="Location *"
+              name="location"
+              value={formData.location}
+              onChange={handleChange}
+              error={!!errors.location}
+              helperText={errors.location}
+            />
+            <TextField
+              fullWidth
+              margin="normal"
+              label="Department *"
+              name="department"
+              value={formData.department}
+              onChange={handleChange}
+              error={!!errors.department}
+              helperText={errors.department}
+            />
+          </Box>
+          <TextField
+            fullWidth
+            margin="normal"
+            label="Skills (comma-separated) *"
+            name="skills"
+            value={formData.skills}
+            onChange={handleChange}
+            error={!!errors.skills}
+            helperText={errors.skills}
+            multiline
+            rows={3}
+          />
           {errors.submit && (
-            <div className="error-alert">
-              <p>{errors.submit}</p>
-            </div>
+            <Typography color="error" sx={{ mt: 1 }}>{errors.submit}</Typography>
           )}
-
-          <div className="form-actions">
-            <button 
-              type="submit" 
-              className="btn-submit"
+          <Box display="flex" gap={2} mt={2}>
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
               disabled={isSubmitting}
+              fullWidth
             >
               {isSubmitting ? 'Adding...' : 'Add Employee'}
-            </button>
-            <button 
-              type="button" 
-              className="btn-cancel"
+            </Button>
+            <Button
+              type="button"
+              variant="outlined"
+              color="secondary"
               onClick={() => navigate('/employees')}
               disabled={isSubmitting}
+              fullWidth
             >
               Cancel
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
+            </Button>
+          </Box>
+        </Box>
+      </Paper>
+    </Box>
   );
 }
 
