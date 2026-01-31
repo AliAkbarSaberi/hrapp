@@ -7,9 +7,10 @@ services:
     envVars:
       - key: NODE_ENV
         value: production
-  - type: web
+
+  - type: static
     name: hrapp-frontend
-    env: static-site
+    env: static
     buildCommand: npm run build
     publishDir: build
     envVars:
