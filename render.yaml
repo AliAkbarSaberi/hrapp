@@ -8,11 +8,11 @@ services:
       - key: NODE_ENV
         value: production
 
-  - type: static
+  - type: web
     name: hrapp-frontend
     env: static
     buildCommand: npm run build
-    publishDir: build
+    staticPublishNum: 1
     envVars:
       - key: REACT_APP_API_URL
         value: ${hrapp-backend.url}/employees
