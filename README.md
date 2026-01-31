@@ -233,8 +233,8 @@ This project is open source and available under the MIT License.
 
 - **Frontend Repository:** [https://github.com/AliAkbarSaberi/hrapp](https://github.com/AliAkbarSaberi/hrapp)
 - **Backend Repository:** [https://github.com/AliAkbarSaberi/hrapp-backend](https://github.com/AliAkbarSaberi/hrapp-backend)
-- **Live Frontend:** [https://hrapp.onrender.com](https://hrapp-frontend-evzn.onrender.com) (Update with your deployed URL)
-- **Live Backend API:** [https://hrapp-backend.onrender.com](https://hrapp-backend-3ut2.onrender.com/employees) (Update with your deployed URL)
+- **Live Frontend:** [https://github.com/AliAkbarSaberi/hrapp](https://github.com/AliAkbarSaberi/hrapp)(Update with your deployed URL)
+- **Live Backend API:** [https://github.com/AliAkbarSaberi/hrapp-backend](https://github.com/AliAkbarSaberi/hrapp-backend)(Update with your deployed URL)
 
 ### Analyzing the Bundle Size
 
