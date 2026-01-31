@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: hrapp-backend
+    env: node
+    buildCommand: npm install
+    startCommand: json-server --watch db.json --port $PORT --host 0.0.0.0
+    envVars:
+      - key: NODE_ENV
+        value: production
+  - type: web
+    name: hrapp-frontend
+    env: static-site
+    buildCommand: npm run build
+    staticSiteOptions:
+      publishDir: build
+    envVars:
+      - key: REACT_APP_API_URL
+        value: ${hrapp-backend.url}/employees
