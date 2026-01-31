@@ -11,7 +11,7 @@ services:
     name: hrapp-frontend
     env: static-site
     buildCommand: npm run build
-      publishDir: build
+    publishDir: build
     envVars:
       - key: REACT_APP_API_URL
         value: ${hrapp-backend.url}/employees
