@@ -7,7 +7,7 @@ function Footer() {
   return (
     <Box component="footer" sx={{ py: 2, px: 1, mt: 'auto', backgroundColor: 'primary.main', color: 'white', textAlign: 'center' }}>
       <Typography variant="body2">
-        &copy; {currentYear} hrApp. All rights reserved. | AliAkbar Saberi
+        &copy; {currentYear} hrApp. All rights reserved. | Aliakbar Saberi
       </Typography>
     </Box>
   );
